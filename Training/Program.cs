@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Training.Data.EntityFrameworkCore;
+using Training.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,10 @@ builder.Services.AddDbContext<CmsContext>(options =>
 
 // add auto mapper to the ioc container
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+// register app services ...
+builder.Services.AddTransient<CategoryService>();
+//... 
 
 var app = builder.Build();
 

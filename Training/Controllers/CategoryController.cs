@@ -1,9 +1,6 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Training.Data.Dtos;
-using Training.Data.Entities;
-using Training.Data.EntityFrameworkCore;
+using Training.Services;
 
 namespace Training.Controllers
 {
@@ -11,60 +8,39 @@ namespace Training.Controllers
     [Route("app/service/[controller]")]
     public class CategoryController : ControllerBase
     {
-        private readonly CmsContext _cmsContext;
-        private readonly IMapper _mapper;
+        private readonly CategoryService _categoryService;
 
-        public CategoryController(CmsContext cmsContext, IMapper mapper)
+        public CategoryController(CategoryService categoryService)
         {
-            _cmsContext = cmsContext;
-            _mapper = mapper;
+            _categoryService = categoryService;
         }
 
         [HttpGet]
         [Route("get-all")]
         public async Task<List<CategoryDto>> GetAll()
         {
-            var data = await _cmsContext.Categories.ToListAsync();
-
-            return _mapper.Map<List<Category>, List<CategoryDto>>(data);
+            return await _categoryService.GetAll();
         }
 
         [HttpGet]
         [Route("get-by-id/{id}")]
         public async Task<CategoryDto> GetById(long id)
         {
-            var data = await _cmsContext.Categories.FindAsync(id);
-
-            return _mapper.Map<Category, CategoryDto>(data);
+            return await _categoryService.GetById(id);
         }
 
         [HttpPost]
         [Route("create")]
         public async Task<CategoryDto> Create([FromBody] CategoryCreateDto category)
         {
-            var newCategory = new Category();
-
-            _mapper.Map(newCategory, category);
-
-            var Entity = (await _cmsContext.AddAsync(newCategory)).Entity;
-
-            await _cmsContext.SaveChangesAsync();
-
-            return _mapper.Map<Category, CategoryDto>(Entity);
+            return await _categoryService.Create(category);
         }
 
         [HttpPut]
         [Route("update/{id}")]
         public async Task Update(long id, [FromBody] CategoryUpdateDto category)
         {
-            var EntityToBeUpdated = await _cmsContext.Categories.FindAsync(id);
-
-            if (EntityToBeUpdated != null)
-            {
-                _mapper.Map(category, EntityToBeUpdated);
-
-                await _cmsContext.SaveChangesAsync();
-            }
+            await _categoryService.Update(id, category);
         }
     }
 }
