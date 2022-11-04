@@ -15,6 +15,9 @@ builder.Services.AddDbContext<CmsContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CmsConnectionString"));
 });
 
+// add auto mapper to the ioc container
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
