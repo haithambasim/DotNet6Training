@@ -34,23 +34,23 @@ if (app.Environment.IsDevelopment())
 }
 
 // ========> API Clients Middleware <========
-var AppClients = app.Configuration.GetSection("AppClients").Get<List<AppClient>>();
+//var AppClients = app.Configuration.GetSection("AppClients").Get<List<AppClient>>();
 
-app.Use(async (ctx, next) =>
-{
-    var clientName = ctx.Request.Headers.FirstOrDefault(x => x.Key == "Client-Name").Value.ToString();
+//app.Use(async (ctx, next) =>
+//{
+//    var clientName = ctx.Request.Headers.FirstOrDefault(x => x.Key == "Client-Name").Value.ToString();
 
-    var clientKey = ctx.Request.Headers.FirstOrDefault(x => x.Key == "Client-Key").Value.ToString();
+//    var clientKey = ctx.Request.Headers.FirstOrDefault(x => x.Key == "Client-Key").Value.ToString();
 
-    if (!AppClients.Any(x => x.Name == clientName && x.ApiKey == clientKey))
-    {
-        ctx.Response.StatusCode = 400;
+//    if (!AppClients.Any(x => x.Name == clientName && x.ApiKey == clientKey))
+//    {
+//        ctx.Response.StatusCode = 400;
 
-        return;
-    }
+//        return;
+//    }
 
-    await next(ctx);
-});
+//    await next(ctx);
+//});
 // ========> API Clients Middleware <========
 
 app.UseHttpsRedirection();
