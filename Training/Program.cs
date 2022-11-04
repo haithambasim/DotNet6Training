@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Training.Data.EntityFrameworkCore;
 using Training.Services;
+using Training.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +32,26 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// ========> API Clients Middleware <========
+var AppClients = app.Configuration.GetSection("AppClients").Get<List<AppClient>>();
+
+app.Use(async (ctx, next) =>
+{
+    var clientName = ctx.Request.Headers.FirstOrDefault(x => x.Key == "Client-Name").Value.ToString();
+
+    var clientKey = ctx.Request.Headers.FirstOrDefault(x => x.Key == "Client-Key").Value.ToString();
+
+    if (!AppClients.Any(x => x.Name == clientName && x.ApiKey == clientKey))
+    {
+        ctx.Response.StatusCode = 400;
+
+        return;
+    }
+
+    await next(ctx);
+});
+// ========> API Clients Middleware <========
 
 app.UseHttpsRedirection();
 
