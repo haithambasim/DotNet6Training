@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Training.Data.EntityFrameworkCore;
 using Training.Services;
 
@@ -57,6 +58,22 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "Files")),
+    //OnPrepareResponse = ctx =>
+    //{
+    //    if (!ctx.Context.User.Identity.IsAuthenticated)
+    //    {
+    //        // respond HTTP 401 Unauthorized, 
+    //        ctx.Context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+    //        // Append following 2 lines to drop body from static files middleware!
+    //        ctx.Context.Response.ContentLength = 0;
+    //        ctx.Context.Response.Body = Stream.Null;
+    //    }
+    //},
+});
 
 app.MapControllers();
 
