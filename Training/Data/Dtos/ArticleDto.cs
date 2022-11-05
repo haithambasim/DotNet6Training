@@ -7,5 +7,6 @@
         public string ShortDescription { get; set; }
         public string Content { get; set; }
         public CategoryDto Category { get; set; }
+        public List<TagDto> Tags { get; set; }
     }
 }

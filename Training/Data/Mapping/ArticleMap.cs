@@ -12,6 +12,10 @@ namespace Training.Data.Mapping
             builder.ToTable(AppConst.DbSchemas.Cms.Tables.Articles, AppConst.DbSchemas.Cms.Name);
 
             builder.HasKey(x => x.Id);
+
+            builder.HasMany(p => p.Tags)
+                    .WithMany(p => p.Articles)
+                    .UsingEntity(j => j.ToTable("ArticleTags"));
         }
     }
 }

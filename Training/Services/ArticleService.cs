@@ -18,23 +18,32 @@ namespace Training.Services
 
         public async Task<List<ArticleDto>> GetAll()
         {
-            var data = await _cmsContext.Articles.Include(x => x.Category).ToListAsync();
+            var data = await _cmsContext.Articles
+                .Include(x => x.Category)
+                .Include(x => x.Tags)
+                .ToListAsync();
 
             return _mapper.Map<List<Article>, List<ArticleDto>>(data);
         }
 
         public async Task<ArticleDto> GetById(long id)
         {
-            var data = await _cmsContext.Articles.FindAsync(id);
+            var data = await _cmsContext.Articles
+                .Include(x => x.Category)
+                .Include(x => x.Tags)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             return _mapper.Map<Article, ArticleDto>(data);
         }
 
         public async Task<ArticleDto> Create(ArticleCreateDto article)
         {
+            var Tags = await _cmsContext.Tags.Where(x => article.TagIds.Contains(x.Id)).ToListAsync();
+
             var newArticle = new Article()
             {
-                InsertDate = DateTime.Now
+                InsertDate = DateTime.Now,
+                Tags = Tags,
             };
 
             _mapper.Map(article, newArticle);
@@ -48,13 +57,20 @@ namespace Training.Services
 
         public async Task Update(long id, ArticleUpdateDto article)
         {
-            var EntityToBeUpdated = await _cmsContext.Articles.FindAsync(id);
+            var Tags = await _cmsContext.Tags.Where(x => article.TagIds.Contains(x.Id)).ToListAsync();
+
+            var EntityToBeUpdated = await _cmsContext.Articles
+                .Include(x => x.Tags)
+                .Include(x => x.Category)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (EntityToBeUpdated != null)
             {
                 _mapper.Map(article, EntityToBeUpdated);
 
                 EntityToBeUpdated.UpdateDate = DateTime.Now;
+
+                EntityToBeUpdated.Tags = Tags;
 
                 await _cmsContext.SaveChangesAsync();
             }
