@@ -7,5 +7,6 @@
         public string Content { get; set; }
         public long CategoryId { get; set; }
         public List<long> TagIds { get; set; }
+        public string ImageName { get; set; }
     }
 }

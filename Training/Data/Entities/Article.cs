@@ -10,5 +10,6 @@ namespace Training.Data.Entities
         public long CategoryId { get; set; }
         public Category Category { get; set; }
         public ICollection<Tag> Tags { get; set; }
+        public string ImageName { get; set; }
     }
 }
