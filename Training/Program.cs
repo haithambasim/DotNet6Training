@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Training.Data.EntityFrameworkCore;
 using Training.Services;
-using Training.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +21,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // register app services ...
 builder.Services.AddTransient<CategoryService>();
+builder.Services.AddTransient<ArticleService>();
 //... 
 
 var app = builder.Build();

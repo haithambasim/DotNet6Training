@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Training.Data.Entities;
 using Training.Data.Mapping;
 
@@ -12,10 +11,12 @@ namespace Training.Data.EntityFrameworkCore
         }
 
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Article> Articles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new CategoryMap());
+            builder.ApplyConfiguration(new ArticleMap());
         }
     }
 }

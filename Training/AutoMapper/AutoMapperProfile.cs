@@ -8,9 +8,15 @@ namespace Training.AutoMapper
     {
         public AutoMapperProfile()
         {
+            // Category
             CreateMap<CategoryCreateDto, Category>();
             CreateMap<CategoryUpdateDto, Category>();
             CreateMap<Category, CategoryDto>();
+
+            // Article
+            CreateMap<ArticleCreateDto, Article>().ReverseMap();
+            CreateMap<ArticleUpdateDto, Article>();
+            CreateMap<Article, ArticleDto>();
         }
     }
 }

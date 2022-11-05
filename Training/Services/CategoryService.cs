@@ -32,9 +32,12 @@ namespace Training.Services
 
         public async Task<CategoryDto> Create(CategoryCreateDto category)
         {
-            var newCategory = new Category();
+            var newCategory = new Category()
+            {
+                InsertDate = DateTime.Now,
+            };
 
-            _mapper.Map(newCategory, category);
+            _mapper.Map(category, newCategory);
 
             var Entity = (await _cmsContext.AddAsync(newCategory)).Entity;
 
@@ -50,6 +53,20 @@ namespace Training.Services
             if (EntityToBeUpdated != null)
             {
                 _mapper.Map(category, EntityToBeUpdated);
+
+                EntityToBeUpdated.UpdateDate = DateTime.Now;
+
+                await _cmsContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task Delete(long id)
+        {
+            var Entity = await _cmsContext.Categories.FindAsync(id);
+
+            if (Entity != null)
+            {
+                _cmsContext.Categories.Remove(Entity);
 
                 await _cmsContext.SaveChangesAsync();
             }

@@ -42,5 +42,12 @@ namespace Training.Controllers
         {
             await _categoryService.Update(id, category);
         }
+
+        [HttpDelete]
+        [Route("delete/{id}")]
+        public async Task Delete(long id)
+        {
+            await _categoryService.Delete(id);
+        }
     }
 }
