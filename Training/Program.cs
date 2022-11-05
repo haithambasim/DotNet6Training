@@ -22,6 +22,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // register app services ...
 builder.Services.AddTransient<CategoryService>();
 builder.Services.AddTransient<ArticleService>();
+builder.Services.AddTransient<TagService>();
 //... 
 
 var app = builder.Build();

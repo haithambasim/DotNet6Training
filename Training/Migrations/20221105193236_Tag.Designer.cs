@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Training.Data.EntityFrameworkCore;
 
@@ -11,9 +12,10 @@ using Training.Data.EntityFrameworkCore;
 namespace Training.Migrations
 {
     [DbContext(typeof(CmsContext))]
-    partial class CmsContextModelSnapshot : ModelSnapshot
+    [Migration("20221105193236_Tag")]
+    partial class Tag
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
