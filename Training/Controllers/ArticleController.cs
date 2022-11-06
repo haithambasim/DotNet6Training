@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Training.Data.Dtos;
+using Training.Exceptions;
 using Training.Services;
 
 namespace Training.Controllers
@@ -28,6 +29,9 @@ namespace Training.Controllers
         [Route("get-by-id/{id}")]
         public async Task<ArticleDto> GetById(long id)
         {
+            if (id == 0)
+                throw new UserFriendlyException($"Invalid Article id { id }");
+
             return await _articleService.GetById(id);
         }
 

@@ -3,13 +3,18 @@ using Microsoft.Extensions.FileProviders;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
 using Training.Data.EntityFrameworkCore;
+using Training.Exceptions;
 using Training.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ExceptionsFilter>();
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
