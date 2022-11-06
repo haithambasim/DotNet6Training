@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Serilog;
+using Serilog.Sinks.MSSqlServer;
 using Training.Data.EntityFrameworkCore;
 using Training.Services;
 
@@ -25,6 +27,20 @@ builder.Services.AddTransient<CategoryService>();
 builder.Services.AddTransient<ArticleService>();
 builder.Services.AddTransient<TagService>();
 //... 
+
+// Configure Serilog
+builder.Host.UseSerilog((context, services, configuration) =>
+{
+    configuration
+    .Filter.ByIncludingOnly(x => x.Level >= Serilog.Events.LogEventLevel.Error)
+    .WriteTo.File("./Logger.txt")
+    .WriteTo.MSSqlServer(builder.Configuration.GetConnectionString("CmsConnectionString"), new MSSqlServerSinkOptions()
+    {
+        TableName = "Logger",
+        SchemaName = "Cms",
+        AutoCreateSqlTable = true,
+    });
+});
 
 var app = builder.Build();
 

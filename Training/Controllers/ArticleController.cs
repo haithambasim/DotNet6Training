@@ -9,10 +9,12 @@ namespace Training.Controllers
     public class ArticleController : ControllerBase
     {
         private readonly ArticleService _articleService;
+        private readonly ILogger<ArticleController> _logger;
 
-        public ArticleController(ArticleService articleService)
+        public ArticleController(ArticleService articleService, ILogger<ArticleController> logger)
         {
             _articleService = articleService;
+            _logger = logger;
         }
 
         [HttpGet]
