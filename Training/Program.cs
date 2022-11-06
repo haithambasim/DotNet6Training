@@ -19,6 +19,22 @@ builder.Services.AddControllers(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder
+            .WithOrigins
+            (
+                "https://localhost:7169",
+                "http://localhost:5169"
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
 builder.Services.AddDbContext<CmsContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("CmsConnectionString"));
@@ -77,6 +93,8 @@ if (app.Environment.IsDevelopment())
 // ========> API Clients Middleware <========
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthorization();
 
