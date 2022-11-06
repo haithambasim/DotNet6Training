@@ -19,6 +19,13 @@ namespace Training.Controllers
         }
 
         [HttpGet]
+        [Route("get-pages")]
+        public async Task<List<ArticleDto>> GetPages(string term, int page, int pageSize, string sortColumn, string SortOrder)
+        {
+            return await _articleService.GetPages(term, page, pageSize, sortColumn, SortOrder);
+        }
+
+        [HttpGet]
         [Route("get-all")]
         public async Task<List<ArticleDto>> GetAll()
         {

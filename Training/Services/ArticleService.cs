@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Training.Data.Dtos;
 using Training.Data.Entities;
 using Training.Data.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
 
 namespace Training.Services
 {
@@ -16,6 +17,18 @@ namespace Training.Services
             _mapper = mapper;
         }
 
+        public async Task<List<ArticleDto>> GetPages(string term, int page, int pageSize, string sortColumn, string SortOrder)
+        {
+            var data = await _cmsContext.Articles
+                .Include(x => x.Category)
+                .Include(x => x.Tags)
+                .Where(x => x.Title.Contains(term) || x.ShortDescription.Contains(term) || x.Content.Contains(term))
+                .OrderBy($"{sortColumn ?? "id"} {SortOrder ?? "asc"}")
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize).ToListAsync();
+
+            return _mapper.Map<List<Article>, List<ArticleDto>>(data);
+        }
         public async Task<List<ArticleDto>> GetAll()
         {
             var data = await _cmsContext.Articles
@@ -25,7 +38,6 @@ namespace Training.Services
 
             return _mapper.Map<List<Article>, List<ArticleDto>>(data);
         }
-
         public async Task<ArticleDto> GetById(long id)
         {
             var data = await _cmsContext.Articles
