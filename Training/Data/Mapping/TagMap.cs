@@ -12,6 +12,8 @@ namespace Training.Data.Mapping
             builder.ToTable(AppConst.DbSchemas.Cms.Tables.Tags, AppConst.DbSchemas.Cms.Name);
 
             builder.HasKey(x => x.Id);
+
+            builder.Property(p => p.RowVersion).IsRowVersion();
         }
     }
 }

@@ -9,5 +9,6 @@
         public CategoryDto Category { get; set; }
         public List<TagDto> Tags { get; set; }
         public string ImageName { get; set; }
+        public byte[] RowVersion { get; set; }
     }
 }

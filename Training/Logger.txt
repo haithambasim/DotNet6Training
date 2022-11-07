@@ -25,3 +25,5 @@ Microsoft.Data.SqlClient.SqlException (0x80131904): The offset specified in a OF
    at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
 ClientConnectionId:b980b001-1c51-4b6e-981f-3eee920c9aa3
 Error Number:10742,State:1,Class:15
+2022-11-07 02:05:46.394 +03:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Cms].[Tags] ADD [RowVersion] rowversion NULL;

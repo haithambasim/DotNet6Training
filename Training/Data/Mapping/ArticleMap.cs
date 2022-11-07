@@ -16,6 +16,8 @@ namespace Training.Data.Mapping
             builder.HasMany(p => p.Tags)
                     .WithMany(p => p.Articles)
                     .UsingEntity(j => j.ToTable("ArticleTags"));
+
+            builder.Property(p => p.RowVersion).IsRowVersion();
         }
     }
 }

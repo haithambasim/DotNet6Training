@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Training.Data.Dtos;
 using Training.Data.Entities;
 using Training.Data.EntityFrameworkCore;
+using Training.Exceptions;
 
 namespace Training.Services
 {
@@ -52,6 +53,11 @@ namespace Training.Services
 
             if (EntityToBeUpdated != null)
             {
+                if (!EntityToBeUpdated.RowVersion.SequenceEqual(category.RowVersion))
+                {
+                    throw new UserFriendlyException("Concurrent Update not allowed");
+                }
+
                 _mapper.Map(category, EntityToBeUpdated);
 
                 EntityToBeUpdated.UpdateDate = DateTime.Now;

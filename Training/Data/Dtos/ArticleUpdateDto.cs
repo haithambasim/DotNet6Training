@@ -8,5 +8,6 @@
         public long CategoryId { get; set; }
         public List<long> TagIds { get; set; }
         public string ImageName { get; set; }
+        public byte[] RowVersion { get; set; }
     }
 }
