@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
 using Training.Data.EntityFrameworkCore;
@@ -44,10 +46,24 @@ builder.Services.AddDbContext<CmsContext>(options =>
 // add auto mapper to the ioc container
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(config =>
+                {
+                    config.SaveToken = true;
+                    config.RequireHttpsMetadata = false;
+                    config.TokenValidationParameters = new()
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(builder.Configuration.GetSection("Jwt:Key").Get<string>()))
+                    };
+                });
+
 // register app services ...
-builder.Services.AddTransient<CategoryService>();
-builder.Services.AddTransient<ArticleService>();
-builder.Services.AddTransient<TagService>();
+builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<ArticleService>();
+builder.Services.AddScoped<TagService>();
 //... 
 
 // Configure Serilog
@@ -98,6 +114,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

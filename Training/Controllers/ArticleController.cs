@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Training.Data.Dtos;
 using Training.Exceptions;
@@ -5,6 +6,7 @@ using Training.Services;
 
 namespace Training.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("app/service/[controller]")]
     public class ArticleController : ControllerBase

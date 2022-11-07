@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Training.Data.Dtos;
@@ -6,6 +7,7 @@ using Training.Shared;
 
 namespace Training.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("app/service/[controller]")]
     public class CategoryController : ControllerBase

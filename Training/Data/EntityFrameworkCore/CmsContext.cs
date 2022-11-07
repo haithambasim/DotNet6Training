@@ -13,12 +13,14 @@ namespace Training.Data.EntityFrameworkCore
         public DbSet<Category> Categories { get; set; }
         public DbSet<Article> Articles { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<UserAccount> UserAccounts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new CategoryMap());
             builder.ApplyConfiguration(new ArticleMap());
             builder.ApplyConfiguration(new TagMap());
+            builder.ApplyConfiguration(new UserAccountMap());
         }
     }
 }

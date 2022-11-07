@@ -13,6 +13,7 @@
                     public static readonly string Categories = "Categories";
                     public static readonly string Articles = "Articles";
                     public static readonly string Tags = "Tags";
+                    public static readonly string UserAccounts = "UserAccounts";
                     //public static readonly string Table1 = "Table1";
                     //public static readonly string Table2 = "Table2";
                     //public static readonly string Table3 = "Table3";

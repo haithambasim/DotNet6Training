@@ -22,6 +22,11 @@ namespace Training.AutoMapper
             CreateMap<TagCreateDto, Tag>().ReverseMap();
             CreateMap<TagUpdateDto, Tag>();
             CreateMap<Tag, TagDto>();
+
+            // UserAccount
+            CreateMap<UserRegisterDto, UserAccount>();
+            CreateMap<UserAccount, UserAccountDto>();
+
         }
     }
 }
