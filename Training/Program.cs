@@ -5,6 +5,7 @@ using Serilog.Sinks.MSSqlServer;
 using Training.Data.EntityFrameworkCore;
 using Training.Exceptions;
 using Training.Services;
+using Training.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,6 +63,8 @@ builder.Host.UseSerilog((context, services, configuration) =>
         AutoCreateSqlTable = true,
     });
 });
+
+builder.Services.Configure<List<AppClient>>(builder.Configuration.GetSection("AppClients"));
 
 var app = builder.Build();
 
