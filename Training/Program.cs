@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
-using Serilog.Sinks.MSSqlServer;
 using Training.Data.EntityFrameworkCore;
 using Training.Exceptions;
 using Training.Services;
@@ -40,7 +39,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddDbContext<CmsContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("CmsConnectionString"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("CmsConnectionString"));
 });
 
 // add auto mapper to the ioc container
@@ -72,12 +71,9 @@ builder.Host.UseSerilog((context, services, configuration) =>
     configuration
     .Filter.ByIncludingOnly(x => x.Level >= Serilog.Events.LogEventLevel.Error)
     .WriteTo.File("./Logger.txt")
-    .WriteTo.MSSqlServer(builder.Configuration.GetConnectionString("CmsConnectionString"), new MSSqlServerSinkOptions()
-    {
-        TableName = "Logger",
-        SchemaName = "Cms",
-        AutoCreateSqlTable = true,
-    });
+    .WriteTo.PostgreSQL(builder.Configuration.GetConnectionString("CmsConnectionString"), "Logger", 
+        needAutoCreateTable: true, 
+        schemaName: "Cms");
 });
 
 builder.Services.Configure<List<AppClient>>(builder.Configuration.GetSection("AppClients"));

@@ -13,7 +13,7 @@ namespace Training.Data.Mapping
 
             builder.HasKey(x => x.Id);
 
-            builder.Property(p => p.RowVersion).IsRowVersion();
+            builder.Property(p => p.RowVersion).HasColumnType("xmin").ValueGeneratedOnAddOrUpdate();
         }
     }
 }

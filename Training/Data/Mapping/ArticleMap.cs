@@ -17,7 +17,7 @@ namespace Training.Data.Mapping
                     .WithMany(p => p.Articles)
                     .UsingEntity(j => j.ToTable("ArticleTags"));
 
-            builder.Property(p => p.RowVersion).IsRowVersion();
+            builder.Property(p => p.RowVersion).HasColumnType("xmin").ValueGeneratedOnAddOrUpdate();
         }
     }
 }
