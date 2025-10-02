@@ -12,9 +12,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
       - ASPNETCORE_URLS=${ASPNETCORE_URLS}
-      - ConnectionStrings__CmsConnectionString=Host=${DB_CONNECTION_STRING};
+      - ConnectionStrings__CmsConnectionString=${DB_CONNECTION_STRING};
+      - DOTNET_RUNNING_IN_CONTAINER=true
     ports:
-      - "${API_PORT}:80"
+      - "${API_PORT}:9080"
     networks:
       - ${NETWORK_NAME}
     volumes:
