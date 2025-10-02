@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+
+  # .NET 6 Training API
+  training-api:
+    build:
+      context: ./Training
+      dockerfile: Dockerfile
+    container_name: ${API_CONTAINER_NAME}
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - ASPNETCORE_URLS=${ASPNETCORE_URLS}
+      - ConnectionStrings__CmsConnectionString=Host=${DB_CONNECTION_STRING};
+    ports:
+      - "${API_PORT}:80"
+    networks:
+      - ${NETWORK_NAME}
+    volumes:
+      - ${FILES_DIRECTORY}:/app/Files
+ 
+networks:
+  training-network:
+    driver: bridge
