@@ -14,6 +14,7 @@ services:
       - ASPNETCORE_URLS=${ASPNETCORE_URLS}
       - ConnectionStrings__CmsConnectionString=${DB_CONNECTION_STRING};
       - DOTNET_RUNNING_IN_CONTAINER=true
+      - DOCKER_BUILDKIT=0
     ports:
       - "${API_PORT}:9080"
     networks:
