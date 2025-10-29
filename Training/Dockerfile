@@ -27,7 +27,7 @@ RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 COPY --from=build /app/publish .
 
 # Create the Files directory for file uploads
-RUN mkdir -p /app/Files
+# RUN mkdir -p /app/Files
 
 # Expose the port
 EXPOSE 80
